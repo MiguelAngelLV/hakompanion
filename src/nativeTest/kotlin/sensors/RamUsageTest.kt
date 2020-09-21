@@ -1,7 +1,8 @@
 package sensors
 
 import kotlin.test.Test
-
+import kotlin.test.assertTrue
+import kotlin.test.fail
 
 
 class RamUsageTest {
@@ -15,6 +16,7 @@ class RamUsageTest {
 
         val value = ramUsage.getValue()
 
+        assertTrue(value.isNotBlank())
 
     }
 
