@@ -3,6 +3,7 @@ package sensors
 import models.BinarySensor
 import utils.process.Process
 
+
 class Webcam : BinarySensor() {
 
 

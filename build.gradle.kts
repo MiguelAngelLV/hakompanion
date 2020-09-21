@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.4.10"
+    kotlin("plugin.serialization") version "1.4.10"
 }
 group = "org.malv"
 version = "0.1"
@@ -39,5 +40,6 @@ kotlin {
 
 dependencies {
     commonMainApi("pw.binom.io:core:0.1.18")
-
+    commonMainImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2")
 }
+
