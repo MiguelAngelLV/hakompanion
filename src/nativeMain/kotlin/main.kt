@@ -1,10 +1,15 @@
 import sensors.RamUsage
+import sensors.Webcam
 
 fun main() {
 
-    val sensor = RamUsage()
+    val sensor = Webcam()
 
-    println(sensor.getValue())
+    if (sensor.status())
+        println("ON")
+    else
+        println("OFF")
+
 
 
 }
