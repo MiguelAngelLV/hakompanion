@@ -6,6 +6,11 @@ version = "0.1"
 
 repositories {
     mavenCentral()
+
+    maven( url = "https://repo.binom.pw/releases")
+
+
+
 }
 kotlin {
     val hostOs = System.getProperty("os.name")
@@ -33,6 +38,6 @@ kotlin {
 }
 
 dependencies {
-    commonMainImplementation("org.jetbrains.kotlinx:kotlinx-io-jvm:1.4.10")
+    commonMainApi("pw.binom.io:core:0.1.18")
 
 }

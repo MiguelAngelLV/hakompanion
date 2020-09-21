@@ -1,4 +1,10 @@
+import sensors.RamUsage
+
 fun main() {
 
-    println("Probado native")
+    val sensor = RamUsage()
+
+    println(sensor.getValue())
+
+
 }
