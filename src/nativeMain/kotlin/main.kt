@@ -1,29 +1,33 @@
 import kotlinx.cinterop.*
 import libpaho.*
-import sensors.Webcam
 
 fun main() {
 
-    val sensor = Webcam()
-
     memScoped {
         val client = alloc<MQTTClientVar>()
-        val connectOptions = alloc<MQTTClient_connectOptions>()
+        val createOptions = MQTTClient_createOptions_init().copy {
+            MQTTVersion = MQTTVERSION_5
+        }
 
-        MQTTClient_create(client.ptr, "tcp://10.0.0.3:1883", "Kompanion",
-            MQTTCLIENT_PERSISTENCE_NONE, null)
+        val rc = MQTTClient_createWithOptions(client.ptr, "tcp://10.0.0.3:1883", "Kompanion",
+                MQTTCLIENT_PERSISTENCE_NONE, null, createOptions.ptr)
 
-        connectOptions.keepAliveInterval = 20
-        connectOptions.cleansession = 1
+        println("Create reason code: $rc")
 
-        val properties = alloc<MQTTProperties>()
-        val willProperties = alloc<MQTTProperties>()
+        val connectOptions = MQTTClient_connectOptions_init().copy {
+            keepAliveInterval = 10
+            cleanstart = 1
+            username = "username".cstr.ptr
+            password = "password".cstr.ptr
+        }
 
-        val result = MQTTClient_connect5(client.value, connectOptions.ptr, properties.ptr, willProperties.ptr)
-        result.useContents {
-            println("Version: $version")
-            println("Code: $reasonCode")
-            println("Count: $reasonCodeCount")
+        val props = MQTTProperties_init()
+        val willProps = MQTTProperties_init()
+
+        val response = MQTTClient_connect5(client.value, connectOptions.ptr, props.ptr, willProps.ptr)
+
+        response.useContents {
+            println("Connect reason code: $reasonCode")
         }
     }
 

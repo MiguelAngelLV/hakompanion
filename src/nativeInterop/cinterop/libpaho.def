@@ -1,3 +1,21 @@
 headers = MQTTAsync.h MQTTExportDeclarations.h MQTTProperties.h MQTTReasonCodes.h MQTTClient.h MQTTClientPersistence.h MQTTSubscribeOpts.h
 compilerOpts.linux = -I/usr/include -I/usr/include/x86_64-linux-gnu
 linkerOpts.linux = -L/usr/lib64 -L/usr/lib/x86_64-linux-gnu -lpaho-mqtt3c
+
+---
+
+static inline MQTTClient_createOptions MQTTClient_createOptions_init() {
+  return (MQTTClient_createOptions) MQTTClient_createOptions_initializer;
+}
+
+static inline MQTTClient_connectOptions MQTTClient_connectOptions_init() {
+  return (MQTTClient_connectOptions) MQTTClient_connectOptions_initializer5;
+}
+
+static inline MQTTProperties MQTTProperties_init() {
+  return (MQTTProperties) MQTTProperties_initializer;
+}
+
+static inline MQTTResponse MQTTResponse_init() {
+  return (MQTTResponse) MQTTResponse_initializer;
+}
