@@ -29,6 +29,9 @@ kotlin {
                 entryPoint = "main"
             }
         }
+
+        val main by compilations.getting
+        val libpaho by main.cinterops.creating
     }
     sourceSets {
         val nativeMain by getting
