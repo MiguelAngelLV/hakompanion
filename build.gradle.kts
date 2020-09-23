@@ -8,14 +8,11 @@ version = "0.1"
 repositories {
     mavenCentral()
 
-    maven( url = "https://repo.binom.pw/releases")
-
-
-
 }
 kotlin {
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
+
     val nativeTarget = when {
         hostOs == "Mac OS X" -> macosX64("native")
         hostOs == "Linux" -> linuxX64("native")
@@ -42,7 +39,6 @@ kotlin {
 }
 
 dependencies {
-    commonMainApi("pw.binom.io:core:0.1.18")
     commonMainImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2")
 }
 
