@@ -13,6 +13,10 @@ class Webcam : BinarySensor() {
     override val subType: String = "webcam"
 
 
+    override val config: Config by lazy {
+        config.icon = "mdi:webcam"
+        config
+    }
 
 
     fun hasWebcam(): Boolean {

@@ -15,6 +15,7 @@ class RamUsage : Sensor() {
 
     override val config: Config by lazy {
         val config = super.config
+        config.icon = "mdi:memory"
         config.unitOfMeasurement = "MB"
         config
     }
