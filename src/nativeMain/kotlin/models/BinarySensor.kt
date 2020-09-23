@@ -1,6 +1,6 @@
 package models
 
-abstract class BinarySensor : Device() {
+abstract class BinarySensor : Entity() {
 
     abstract fun status() : Boolean
 

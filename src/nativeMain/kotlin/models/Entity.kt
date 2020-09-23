@@ -1,6 +1,6 @@
 package models
 
-open class Device  {
+open class Entity  {
 
 
 
