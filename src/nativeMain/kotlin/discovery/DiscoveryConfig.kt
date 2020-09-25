@@ -1,10 +1,11 @@
 package discovery
 
+import config.Device
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-class Config(
+class DiscoveryConfig(
 
 
     @SerialName("action_topic")
@@ -116,7 +117,7 @@ class Config(
     var currentTemperatureTemplate: String? = null,
 
     @SerialName("device")
-    var device: List<Device>? = null,
+    var device: Device? = null,
 
     @SerialName("device_class")
     var deviceClass: String? = null,

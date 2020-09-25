@@ -1,10 +1,11 @@
 package sensors
 
-import discovery.Config
+import config.Config
+import discovery.DiscoveryConfig
 import models.Sensor
 import utils.process.Process
 
-class CpuUsage : Sensor() {
+class CpuUsage(config: Config) : Sensor(config) {
 
 
     override val id: String = "cpu_usage"
@@ -15,11 +16,12 @@ class CpuUsage : Sensor() {
     var lasts = reads()
 
 
-    override val config: Config by lazy {
-        val config = this.config
-        config.icon = "mdi:cpu-64-bit"
-        config.unitOfMeasurement = "%"
-        config
+    override val discoveryConfig: DiscoveryConfig by lazy {
+        val c = super.discoveryConfig
+        c.icon = "mdi:cpu-64-bit"
+        c.valueTemplate = "{{ value_json.cpu }}"
+        c.unitOfMeasurement = "%"
+        c
     }
 
 

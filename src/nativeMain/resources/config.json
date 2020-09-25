@@ -1,0 +1,15 @@
+{
+  "discovery": "homeassistant",
+
+  "mqtt": {
+    "host": "tcp://192.168.1.1:1883",
+    "username": "myUsername",
+    "password": "myPassword"
+  },
+
+  "device": {
+    "name": "My Computer",
+    "identifiers": ["my_computer"]
+  }
+
+}

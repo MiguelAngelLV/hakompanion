@@ -18,6 +18,9 @@ class FileTest  {
         val json = file.readString()
 
         assertEquals("{ \"label\":  \"test\"}\n", json)
+
+        
+
     }
 
 

@@ -30,7 +30,7 @@ class CpuUsageTest {
     fun `Get config`() {
 
         val cpuUsage = CpuUsage()
-        val config = Json.encodeToString(cpuUsage.config)
+        val config = Json.encodeToString(cpuUsage.discoveryConfig)
 
         assertTrue(config.contains("mdi:cpu-64-bit"))
         assertFalse(config.contains("null"))

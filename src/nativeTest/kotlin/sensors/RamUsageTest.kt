@@ -5,7 +5,6 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlin.test.fail
 
 
 class RamUsageTest {
@@ -27,7 +26,7 @@ class RamUsageTest {
     fun `Get config`() {
 
         val ramUsage = RamUsage()
-        val config = Json.encodeToString(ramUsage.config)
+        val config = Json.encodeToString(ramUsage.discoveryConfig)
 
         assertTrue(config.contains("mdi:memory"))
         assertFalse(config.contains("null"))

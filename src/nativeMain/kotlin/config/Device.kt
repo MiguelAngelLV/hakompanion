@@ -1,4 +1,4 @@
-package discovery
+package config
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 class Device(
 
     @SerialName("identifiers")
-    var identifiers: List<String>? = null,
+    var identifiers: List<String> = emptyList(),
 
     @SerialName("manufacturer")
     var manufacturer: String? = null,

@@ -1,6 +1,9 @@
 package models
 
-abstract class BinarySensor : Entity() {
+import config.Config
+import config.Device
+
+abstract class BinarySensor(config: Config) : Entity(config) {
 
 
     override val type = "binary_sensor"

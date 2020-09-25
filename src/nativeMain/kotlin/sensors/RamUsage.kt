@@ -1,11 +1,11 @@
 package sensors
 
-import discovery.Config
-import discovery.Device
+import config.Config
+import discovery.DiscoveryConfig
 import models.Sensor
 import utils.process.Process
 
-class RamUsage : Sensor() {
+class RamUsage(config: Config) : Sensor(config) {
 
 
     override val id: String = "ram_usage"
@@ -13,11 +13,11 @@ class RamUsage : Sensor() {
     override val subType: String = "ram_usage"
 
 
-    override val config: Config by lazy {
-        val config = super.config
-        config.icon = "mdi:memory"
-        config.unitOfMeasurement = "MB"
-        config
+    override val discoveryConfig: DiscoveryConfig by lazy {
+        val c = super.discoveryConfig
+        c.icon = "mdi:memory"
+        c.unitOfMeasurement = "MB"
+        c
     }
 
 

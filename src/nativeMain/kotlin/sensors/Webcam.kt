@@ -1,22 +1,18 @@
 package sensors
 
-import discovery.Config
-import discovery.Device
+import config.Config
+import config.Device
+import discovery.DiscoveryConfig
 import models.BinarySensor
 import utils.process.Process
 
 
-class Webcam : BinarySensor() {
+class Webcam(config: Config) : BinarySensor(config) {
 
     override val id: String = "webcam"
     override val name: String = "Web Cam"
     override val subType: String = "webcam"
 
-
-    override val config: Config by lazy {
-        config.icon = "mdi:webcam"
-        config
-    }
 
 
     fun hasWebcam(): Boolean {
