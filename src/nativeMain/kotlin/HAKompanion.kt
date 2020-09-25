@@ -65,7 +65,7 @@ class HAKompanion(val config: Config) {
         }
 
         binarySensor.forEach {
-            mqttClient.publish(it.stateTopic, it.status().toString())
+            mqttClient.publish(it.stateTopic, it.getValue())
         }
 
     }

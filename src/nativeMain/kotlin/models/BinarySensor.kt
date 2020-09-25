@@ -10,4 +10,8 @@ abstract class BinarySensor(config: Config) : Entity(config) {
 
     abstract fun status() : Boolean
 
+    fun getValue(): String {
+        return if (status()) "on" else "off"
+    }
+
 }
