@@ -1,11 +1,20 @@
 package mqtt
 
 import kotlinx.cinterop.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import libpaho.*
+import kotlin.native.concurrent.ThreadLocal
 
-private val DEBUG = true
+private val DEBUG = false
+
+@ThreadLocal
+private object Current {
+  var reference: PahoMqttClient? = null
+}
 
 @Suppress("EXPERIMENTAL_UNSIGNED_LITERALS", "EXPERIMENTAL_API_USAGE")
 class PahoMqttClient : MqttClient {
@@ -65,6 +74,7 @@ class PahoMqttClient : MqttClient {
     }
 
     this.client = client
+    Current.reference = this
     return true
   }
 
@@ -73,6 +83,7 @@ class PahoMqttClient : MqttClient {
     MQTTClient_disconnect5(client.value, 1000, 0, null)
     MQTTClient_destroy(client.ptr)
     this.client = null
+    Current.reference = null
   }
 
   override fun publish(topic: String, payload: String, retain: Boolean, qos: QoS) {
@@ -106,6 +117,8 @@ class PahoMqttClient : MqttClient {
 
 }
 
+
+@Suppress("UNUSED_PARAMETER")
 private fun onDisconnected(
   context: COpaquePointer?,
   cause: CPointer<ByteVar>?
@@ -114,6 +127,7 @@ private fun onDisconnected(
   println("Client disconnected")
 }
 
+@Suppress("UNUSED_PARAMETER")
 private fun onMessageArrived(
   context: COpaquePointer?,
   topicPtr: CPointer<ByteVar>?,
@@ -134,11 +148,13 @@ private fun onMessageArrived(
     println("Received on topic $topic msg with data: $message")
   }
 
-  // TODO find a way to get channel
-  //messagesChannel.offer(MqttMessage(topic, message))
+  GlobalScope.launch(Dispatchers.Default) {
+    Current.reference?.messagesChannel?.offer(MqttMessage(topic, message))
+  }
   return 1
 }
 
+@Suppress("UNUSED_PARAMETER")
 private fun onDeliveryComplete(
   context: COpaquePointer?,
   token: MQTTClient_deliveryToken

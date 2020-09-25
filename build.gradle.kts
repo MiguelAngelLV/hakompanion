@@ -40,6 +40,6 @@ kotlin {
 
 dependencies {
     commonMainImplementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.0-RC2")
-    commonMainImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9")
+    commonMainImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9-native-mt")
 }
 
