@@ -1,7 +1,6 @@
 package models
 
 import config.Config
-import config.Device
 
 abstract class BinarySensor(config: Config) : Entity(config) {
 

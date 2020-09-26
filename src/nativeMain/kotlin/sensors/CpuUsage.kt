@@ -8,21 +8,21 @@ import utils.process.Process
 class CpuUsage(config: Config) : Sensor(config) {
 
 
-    override val id: String = "cpu_usage"
-    override val name: String = "CPU Usage"
-    override val subType: String = "cpu_usage"
-
-
     var lasts = reads()
 
+    override val id: String = "cpu_usage"
+    override val names: List<String> = listOf("cpu")
 
-    override val discoveryConfig: DiscoveryConfig by lazy {
-        val c = super.discoveryConfig
+    override fun createDefaultConfig(name: String): DiscoveryConfig {
+        val c = super.createDefaultConfig(name)
         c.icon = "mdi:cpu-64-bit"
+        c.name = "${name.toUpperCase()} Usage"
+        c.jsonAttributesTopic = c.stateTopic
         c.valueTemplate = "{{ value_json.cpu }}"
         c.unitOfMeasurement = "%"
-        c
+        return c
     }
+
 
 
     override fun getValue(): String {
@@ -34,7 +34,7 @@ class CpuUsage(config: Config) : Sensor(config) {
 
         lasts = news
 
-        val state = diff.joinToString { """ "${it.cpu}": ${(100f * it.use) / (it.use + it.idle)} """ }
+        val state = diff.joinToString {  """ "${it.cpu}": ${((10000 * it.use) / (it.use + it.idle))/100f} """ }
 
         return "{ $state }"
 
@@ -55,8 +55,9 @@ class CpuUsage(config: Config) : Sensor(config) {
                     it[4].toLong()
                 )
             }
+
     }
 
 
-    data class CPUData(val cpu: String, val use: Long, val idle: Long)
+    data class CPUData(var cpu: String, val use: Long, val idle: Long)
 }

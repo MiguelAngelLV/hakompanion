@@ -9,15 +9,15 @@ class RamUsage(config: Config) : Sensor(config) {
 
 
     override val id: String = "ram_usage"
-    override val name: String = "Ram Usage"
-    override val subType: String = "ram_usage"
+    override val names = listOf("Ram Usage")
 
 
-    override val discoveryConfig: DiscoveryConfig by lazy {
-        val c = super.discoveryConfig
+
+    override fun createDefaultConfig(name: String): DiscoveryConfig {
+        val c = super.createDefaultConfig(name)
         c.icon = "mdi:memory"
         c.unitOfMeasurement = "MB"
-        c
+        return c;
     }
 
 

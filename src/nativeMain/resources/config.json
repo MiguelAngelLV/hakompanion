@@ -9,7 +9,9 @@
 
   "device": {
     "name": "My Computer",
-    "identifiers": ["my_computer"]
+    "identifiers": ["my_computer"],
+    "manufacturer": "Manufacturer",
+    "model": "Model1"
   }
 
 }

@@ -4,12 +4,12 @@ import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
-class WebcamTest {
+class WebcamTest : TestBase(){
 
 
     @Test
     fun `Check off`() {
-        val webcam = Webcam()
+        val webcam = Webcam(config)
 
 
         assertTrue(webcam.hasWebcam())

@@ -8,28 +8,41 @@ abstract class Entity(val config: Config) {
 
     abstract val id: String
     abstract val type: String
-    abstract val name: String
-    abstract val subType: String
+    abstract val names: List<String>
 
-    open val discoveryConfig: DiscoveryConfig by lazy {
-        DiscoveryConfig(
+
+    fun getConfigs() : Map<String, DiscoveryConfig> {
+        return names.associateBy({ createDiscoveryTopic(it) }, { createDefaultConfig(it) })
+    }
+
+    open fun createDefaultConfig(name: String): DiscoveryConfig {
+        return DiscoveryConfig(
             name = name,
             device = config.device,
-            uniqueId = uniqueId,
-            stateTopic = stateTopic
+            stateTopic = stateTopic,
+            uniqueId = createUniqueId(name)
         )
-
     }
 
 
-    val uniqueId: String
+    val deviceId: String
         get() = "${config.device.identifiers.first()}_$id"
 
     val stateTopic: String
-        get() = "${config.device.identifiers.first()}/$type/$subType/$id/state"
+        get() = "${config.device.identifiers.first()}/$type/$id/state"
 
-    val discoveryTopic: String
-        get() = "${config.discovery}/$type/$uniqueId/$subType/config"
 
+    private fun createUniqueId(name: String): String {
+        return "${deviceId}_${asId(name)}"
+    }
+
+    private fun createDiscoveryTopic(name: String): String {
+        return "${config.discovery}/$type/$deviceId/${asId(name)}/config"
+    }
+
+
+    private fun asId(name: String): String {
+        return name.replace(" ", "_").toLowerCase()
+    }
 
 }

@@ -550,4 +550,6 @@ class DiscoveryConfig(
 
     @SerialName("xy_value_template")
     var xyValueTemplate: String? = null,
+
 )
+

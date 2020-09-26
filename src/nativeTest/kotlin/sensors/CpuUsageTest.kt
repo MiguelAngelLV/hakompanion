@@ -8,14 +8,14 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 
-class CpuUsageTest {
+class CpuUsageTest : TestBase() {
 
 
 
     @Test
     fun `Get CPU usage`() {
 
-        val cpuUsa = CpuUsage()
+        val cpuUsa = CpuUsage(config)
 
         sleep(1)
         val value = cpuUsa.getValue()
@@ -23,18 +23,6 @@ class CpuUsageTest {
         assertTrue(value.isNotBlank())
 
         println(value)
-
-    }
-
-    @Test
-    fun `Get config`() {
-
-        val cpuUsage = CpuUsage()
-        val config = Json.encodeToString(cpuUsage.discoveryConfig)
-
-        assertTrue(config.contains("mdi:cpu-64-bit"))
-        assertFalse(config.contains("null"))
-
 
     }
 

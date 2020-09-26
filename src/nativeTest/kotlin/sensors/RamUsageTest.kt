@@ -7,14 +7,14 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 
-class RamUsageTest {
+class RamUsageTest : TestBase(){
 
 
 
     @Test
     fun `Get RAM usage`() {
 
-        val ramUsage = RamUsage()
+        val ramUsage = RamUsage(config)
 
         val value = ramUsage.getValue()
 
@@ -22,17 +22,7 @@ class RamUsageTest {
 
     }
 
-    @Test
-    fun `Get config`() {
 
-        val ramUsage = RamUsage()
-        val config = Json.encodeToString(ramUsage.discoveryConfig)
-
-        assertTrue(config.contains("mdi:memory"))
-        assertFalse(config.contains("null"))
-
-
-    }
 
 
 }

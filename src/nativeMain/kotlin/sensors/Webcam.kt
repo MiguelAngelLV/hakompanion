@@ -10,9 +10,8 @@ import utils.process.Process
 class Webcam(config: Config) : BinarySensor(config) {
 
     override val id: String = "webcam"
-    override val name: String = "Web Cam"
-    override val subType: String = "webcam"
 
+    override val names = listOf("Webcam")
 
 
     fun hasWebcam(): Boolean {
@@ -26,9 +25,7 @@ class Webcam(config: Config) : BinarySensor(config) {
 
         if (result.isEmpty())
             return false
-
         return result.last() == '1'
-
     }
 
 }

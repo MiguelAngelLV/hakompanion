@@ -8,6 +8,7 @@ import models.Entity
 import models.Sensor
 import mqtt.PahoMqttClient
 import platform.posix.sleep
+import sensors.Battery
 import sensors.CpuUsage
 import sensors.RamUsage
 import sensors.Webcam
@@ -33,6 +34,7 @@ class HAKompanion(val config: Config) {
 
 
     fun createDevices() {
+        sensors.add(Battery(config))
         sensors.add(RamUsage(config))
         sensors.add(CpuUsage(config))
         binarySensor.add(Webcam(config))
@@ -45,12 +47,16 @@ class HAKompanion(val config: Config) {
         if (!connected)
             return
 
-        sensors.forEach {
-            mqttClient.publish(it.discoveryTopic, Json.encodeToString(it.discoveryConfig), true)
+        sensors.forEach { s ->
+            s.getConfigs().forEach { c ->
+                mqttClient.publish(c.key, Json.encodeToString(c.value), true)
+            }
         }
 
-        binarySensor.forEach {
-            mqttClient.publish(it.discoveryTopic, Json.encodeToString(it.discoveryConfig), true)
+        binarySensor.forEach { s ->
+            s.getConfigs().forEach { c ->
+                mqttClient.publish(c.key, Json.encodeToString(c.value), true)
+            }
         }
 
     }
