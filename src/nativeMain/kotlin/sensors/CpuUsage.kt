@@ -11,12 +11,11 @@ class CpuUsage(config: Config) : Sensor(config) {
     var lasts = reads()
 
     override val id: String = "cpu_usage"
-    override val names: List<String> = listOf("cpu")
+    override val names: List<String> = listOf("CPU Usage")
 
     override fun createDefaultConfig(name: String): DiscoveryConfig {
         val c = super.createDefaultConfig(name)
         c.icon = "mdi:cpu-64-bit"
-        c.name = "${name.toUpperCase()} Usage"
         c.jsonAttributesTopic = c.stateTopic
         c.valueTemplate = "{{ value_json.cpu }}"
         c.unitOfMeasurement = "%"

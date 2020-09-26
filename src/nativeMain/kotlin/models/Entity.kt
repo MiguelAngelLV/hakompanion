@@ -17,7 +17,7 @@ abstract class Entity(val config: Config) {
 
     open fun createDefaultConfig(name: String): DiscoveryConfig {
         return DiscoveryConfig(
-            name = name,
+            name = "${config.device.name} $name",
             device = config.device,
             stateTopic = stateTopic,
             uniqueId = createUniqueId(name)
