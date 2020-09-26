@@ -2,6 +2,9 @@ package sensors
 
 import config.Config
 import discovery.DiscoveryConfig
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import models.Sensor
 import utils.process.Process
 
@@ -9,10 +12,13 @@ class Battery(config: Config) : Sensor(config) {
 
 
     override val id: String = "battery"
-    override val names = read().keys.toList()
+    override val names = read().map { it.name }
 
     override fun getValue(): String {
-        return "{" + read().entries.joinToString(",") { """ "${it.key}": ${it.value}""" } + "}"
+
+        val map = read().associateBy { it.name }
+
+        return Json.encodeToString(map)
     }
 
 
@@ -20,21 +26,22 @@ class Battery(config: Config) : Sensor(config) {
         val c = super.createDefaultConfig(name)
         c.unitOfMeasurement = "%"
         c.icon = "mdi:battery"
-        c.valueTemplate = "{{ value_json['$name'] }}"
+        c.jsonAttributesTopic = c.stateTopic
+        c.jsonAttributesTemplate = "{{ value_json['$name'] | tojson }}"
+        c.valueTemplate = "{{ value_json['$name']['percentage'] }}"
         return c
     }
 
-    fun read(): Map<String, String> {
+    fun read(): List<BatteryStatus> {
         val data = Process.execute("upower --dump")
 
         return data
             .split("\n\n")
             .mapNotNull { createDevice(it) }
-            .toMap()
     }
 
 
-    private fun createDevice(definition: String): Pair<String, String>? {
+    private fun createDevice(definition: String): BatteryStatus? {
         val data = definition.split("\n")
             .map { it.trim() }
             .filter { it.contains(":") }
@@ -43,10 +50,17 @@ class Battery(config: Config) : Sensor(config) {
         if (!data.containsKey("model"))
             return null
 
-        val name = if (data.containsKey("vendor")) "${data["vendor"]} ${data["model"]}" else "${data["model"]}"
-        val value = "${data["percentage"]}".substringBefore("%")
+        return BatteryStatus(
+            name = if (data.containsKey("vendor")) "${data["vendor"]} ${data["model"]}" else "${data["model"]}",
+            percentage = "${data["percentage"]}".substringBefore("%").toIntOrNull() ?: 0,
+            state = "${data["state"]}"
+        )
 
-        return name to value
+
     }
 
+
+
+    @Serializable
+    class BatteryStatus(val name: String, val percentage: Int, val state: String)
 }
